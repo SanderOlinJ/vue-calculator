@@ -3,13 +3,13 @@
         <div class="calculator-row" id="outer-calculator-div">
             <div id="calculator-output-div">
                 <div id="calculator-output">
-                    5400
+                    {{ buffer }}
                 </div>
             </div>
         </div>
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorFirstRow" :key="n"
-                :class="{'pink-buttons': ['PWR','DEL','AC','÷'].includes(n)}">
+                :class="{'pink-buttons': ['PWR','DEL','AC','÷'].includes(n)}" @click="buttonClick(n)">
                 {{ n }}
             </button>
         </div>
@@ -55,11 +55,20 @@
 
         data() {
             return {
+                buffer: "100",
                 calculatorFirstRow: ["PWR","DEL", "AC", "÷"],
                 calculatorSecondRow: ["7", "8", "9", "x"],
                 calculatorThirdRow: ["4", "5", "6", "-"],
                 calculatorFourthRow: ["1", "2", "3", "+"],
                 calculatorFifthRow: [".", "="]
+            }
+        },
+
+        methods: {
+            buttonClick(button){
+                if(button == "DEL"){
+                    this.buffer = "BRUH";
+                }
             }
         }
     }
@@ -70,8 +79,6 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
 #grid-container{
-    padding: 0;
-    margin: 0;
     display: grid;
     color: white;
     height: 600px;
@@ -79,13 +86,11 @@
     grid-template-columns: repeat(auto, 1fr);
     grid-template-rows:  repeat(auto, 1fr);
     background-color: rgb(35, 35, 72);
-    border: 10 px solid gray;
+    border: 10px solid black;
     border-radius: 10px;
 }
 
 .calculator-row{
-    padding: 0;
-    margin: 0;
     width: 500px;
     min-height: 88px;
     text-align: left;
@@ -93,17 +98,19 @@
 }
 
 .calculator-button{
-    padding: 0;
-    margin: 0;
     min-width: 125px;
     height: 88px;
     font-size: 40px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.calculator-button:active{
+    border: 3px solid black;
+    font-size: 36px;
 }
 
 #calculator-output{
-    padding: 0;
-    margin: 0;
     padding-top: 12px;
     padding-right: 10px;
     height: 60px;
@@ -129,25 +136,29 @@
 
 .pink-buttons{
     background-color: #fe67c2;
-    border-color: #fe67c2;
+    border: 1px solid black;
 }
 
 .green-buttons{
     background-color: #62f2b4;
-    border-color: #62f2b4
+    border: 1px solid black;
 }
 
 #zero-button-div{
     display: grid;
     width: 250px;
     min-height: 88px;
-    margin: 0;
-    padding: 0;
 }
 
 #zero-button{
     font-size: 40px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+#zero-button:active{
+    border: 3px solid black;
+    font-size: 36px;
 }
 
 </style>
