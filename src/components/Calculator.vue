@@ -3,46 +3,52 @@
         <div class="calculator-row" id="outer-calculator-div">
             <div id="calculator-output-div">
                 <div id="calculator-output">
-                    {{ buffer }}
+                    {{ updatingValue }}
                 </div>
             </div>
         </div>
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorFirstRow" :key="n"
-                :class="{'pink-buttons': ['PWR','DEL','AC','÷'].includes(n)}" @click="buttonClick(n)">
+                :class="{'pink-buttons': ['PWR','DEL','AC','÷'].includes(n)}" 
+                @click="buttonClick(n)">
                 {{ n }}
             </button>
         </div>
         
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorSecondRow" :key="n"
-                :class="{'green-buttons': ['7','8','9'].includes(n), 'pink-buttons': ['x'].includes(n)}">
+                :class="{'green-buttons': ['7','8','9'].includes(n), 'pink-buttons': ['x'].includes(n)}"
+                @click="buttonClick(n)">
                 {{ n }}
             </button>
         </div>
 
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorThirdRow" :key="n"
-                :class="{'green-buttons': ['4','5','6'].includes(n), 'pink-buttons': ['-'].includes(n)}">
+                :class="{'green-buttons': ['4','5','6'].includes(n), 'pink-buttons': ['-'].includes(n)}"
+                @click="buttonClick(n)">
                 {{ n }}
             </button>
         </div>
 
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorFourthRow" :key="n"
-                :class="{'green-buttons': ['1','2','3'].includes(n), 'pink-buttons': ['+'].includes(n)}">
+                :class="{'green-buttons': ['1','2','3'].includes(n), 'pink-buttons': ['+'].includes(n)}"
+                @click="buttonClick(n)">
                 {{ n }}
             </button>
         </div>
 
         <div class="calculator-row">
             <div id="zero-button-div">
-                <button class="calculator-button, green-buttons" id="zero-button">
+                <button class="calculator-button, green-buttons" id="zero-button"
+                @click="buttonClick(n)">
                     0
                 </button>
             </div>
             <button class="calculator-button" v-for="n in calculatorFifthRow" :key="n"
-                :class="{'pink-buttons': ['.','='].includes(n)}">
+                :class="{'pink-buttons': ['.','='].includes(n)}"
+                @click="buttonClick(n)">
                 {{ n }}
             </button>
         </div>
@@ -55,7 +61,9 @@
 
         data() {
             return {
-                buffer: "100",
+                updatingValue: "",
+                staticValue: 0,
+                lastOperator: "",
                 calculatorFirstRow: ["PWR","DEL", "AC", "÷"],
                 calculatorSecondRow: ["7", "8", "9", "x"],
                 calculatorThirdRow: ["4", "5", "6", "-"],
@@ -65,15 +73,33 @@
         },
 
         methods: {
-            buttonClick(button){
-                if(button == "DEL"){
-                    this.buffer = "BRUH";
+            buttonClick(buttonValue){
+                if(isNaN(buttonValue)){
+                    this.symbolHandling(buttonValue);
+                    // Reset display
+                } else{
+                    this.numberHandling(buttonValue);
+                    // Handle numbers
                 }
+            },
+
+            numberHandling(buttonValue){
+                
+                this.updatingValue = this.updatingValue.concat(buttonValue);
+                
+            },
+
+            symbolHandling(buttonValue){
+                if (buttonValue == "DEL"){
+                    this.updatingValue = "";
+                } else if (buttonValue == "AC"){
+                    this.updatingValue = this.updatingValue.slice(0, -1);
+                }
+                this.lastOperator = buttonValue;
             }
         }
     }
 </script>
-
 
 
 <style>
@@ -113,12 +139,12 @@
 #calculator-output{
     padding-top: 12px;
     padding-right: 10px;
-    height: 60px;
+    height: 100px;
     text-align: right;
     justify-items: center;
     font-size: 70px;
     font-family: 'Orbitron', sans-serif;
-    
+    overflow: auto;
 }
 
 #calculator-output-div{
