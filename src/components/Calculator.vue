@@ -128,7 +128,7 @@
                         this.doTheMath(buttonValue);
                         this.updatingValue = this.value.toString();
                         this.equation = this.equation.concat(this.value);
-                        //this.$emit("addEquationToHistory", this.equation);
+                        this.$emit("addEquationToHistory", this.equation);
                         console.log(this.equation);
                         this.clearAllButOutput();
                         this.beginNewEquation = true;
