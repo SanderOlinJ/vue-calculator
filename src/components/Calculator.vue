@@ -42,7 +42,7 @@
         <div class="calculator-row">
             <div id="zero-button-div">
                 <button class="calculator-button, green-buttons" id="zero-button"
-                @click="buttonClick(n)">
+                @click="buttonClick(0)">
                     0
                 </button>
             </div>
@@ -61,9 +61,11 @@
 
         data() {
             return {
-                updatingValue: "",
-                staticValue: 0,
+                updatingValue: "OFF",
+                value: 0,
                 lastOperator: "",
+                equation: "",
+                isOff: true,
                 calculatorFirstRow: ["PWR","DEL", "AC", "÷"],
                 calculatorSecondRow: ["7", "8", "9", "x"],
                 calculatorThirdRow: ["4", "5", "6", "-"],
@@ -74,28 +76,110 @@
 
         methods: {
             buttonClick(buttonValue){
-                if(isNaN(buttonValue)){
+                if (buttonValue == "PWR") {
+                    if (this.isOff){
+                        this.clearOutAllFields();
+                        this.isOff = false;
+                        return;
+                    } else{
+                        this.clearOutAllFields();
+                        this.updatingValue = "OFF";
+                        this.isOff = true;
+                        return;
+                    }
+                }
+                if (this.isOff){
+                    return;
+                }
+                if(isNaN(buttonValue) && buttonValue != "."){
                     this.symbolHandling(buttonValue);
-                    // Reset display
-                } else{
+                } else {
                     this.numberHandling(buttonValue);
-                    // Handle numbers
                 }
             },
 
+
             numberHandling(buttonValue){
-                
+                if(isNaN(this.updatingValue) && this.updatingValue != "."){
+                    this.updatingValue = "";
+                }
                 this.updatingValue = this.updatingValue.concat(buttonValue);
-                
             },
 
             symbolHandling(buttonValue){
-                if (buttonValue == "DEL"){
-                    this.updatingValue = "";
-                } else if (buttonValue == "AC"){
-                    this.updatingValue = this.updatingValue.slice(0, -1);
+                switch (buttonValue){
+                    case "DEL":
+                        this.clearOutAllFields();
+                        break;
+                    case "AC":
+                        if (!this.updatingValue == ""){
+                            this.updatingValue = this.updatingValue.slice(0, -1);
+                        } else {
+                            this.clearOutAllFields();
+                        }
+                        break;
+                    case "=":
+                        this.doTheMath(buttonValue);
+                        this.updatingValue = this.value;
+                        this.equation = this.equation.concat(this.value);
+                        //this.$emit("addEquationToHistory", this.equation);
+                        console.log(this.equation);
+                        this.clearAllButOutput();
+                        break;
+                    default:
+                        this.doTheMath(buttonValue);
+                        break;
                 }
+            },
+
+            doTheMath(buttonValue){
+                console.log("--------")
+                if(this.lastOperator != ""){
+                    switch(this.lastOperator){
+                        case "+":
+                            this.value += parseInt(this.updatingValue);
+                            break;
+                        case "-":
+                            this.value -= parseInt(this.updatingValue);
+                            break;
+                        case "x":
+                            this.value *= parseInt(this.updatingValue);
+                            break;
+                        case "÷":
+                            this.value /= parseInt(this.updatingValue);
+                            break;
+                    }
+                } else {
+                    if (this.updatingValue == ""){
+                        this.value = 0;
+                    } else {
+                    this.value = parseInt(this.updatingValue);
+                    }
+                }
+                if (this.updatingValue == ""){
+                    this.equation = this.equation.concat("0");
+                } else{
+                    this.equation = this.equation.concat(this.updatingValue);
+                }
+                this.equation = this.equation.concat(buttonValue);
+                this.updatingValue = buttonValue;
                 this.lastOperator = buttonValue;
+                
+                console.log(this.equation);
+                console.log(this.value);
+                console.log(this.updatingValue);
+                
+            },
+
+            clearOutAllFields(){
+                this.clearAllButOutput();
+                this.updatingValue = "";
+            },
+
+            clearAllButOutput(){
+                this.value = 0;
+                this.lastOperator = "";
+                this.equation = "";
             }
         }
     }
@@ -144,7 +228,8 @@
     justify-items: center;
     font-size: 70px;
     font-family: 'Orbitron', sans-serif;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 #calculator-output-div{
