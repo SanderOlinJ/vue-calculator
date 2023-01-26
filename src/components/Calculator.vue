@@ -42,7 +42,7 @@
         <div class="calculator-row">
             <div id="zero-button-div">
                 <button class="calculator-button, green-buttons" id="zero-button"
-                @click="buttonClick(0)">
+                @click="buttonClick('0')">
                     0
                 </button>
             </div>
