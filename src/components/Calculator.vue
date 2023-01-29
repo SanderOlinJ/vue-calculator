@@ -114,10 +114,10 @@
 
             symbolHandling(buttonValue){
                 switch (buttonValue){
-                    case "DEL":
+                    case "AC":
                         this.clearOutAllFields();
                         break;
-                    case "AC":
+                    case "DEL":
                         if (!this.updatingValue == ""){
                             this.updatingValue = this.updatingValue.slice(0, -1);
                         } else {
