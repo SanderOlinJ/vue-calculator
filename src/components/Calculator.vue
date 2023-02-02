@@ -138,55 +138,51 @@
                         break;
                 }
             },
-
+            
             doTheMath(buttonValue){
-                
-                // Calculates the sum so far, using the previous operator entered (it it was).
+                let printToEquation = true;
+
+                // Calculates the sum so far, using the previous operator entered (if it has one).
                 if(this.lastOperator != ""){
-
-                    // If the user were to give 2 operators in row, a 0 is placed in between.
-                    if (isNaN(this.updatingValue)){
-                        this.updatingValue = 0;
-                    }
-
-                    // Calculates the sum, based on opertor.
-                    switch(this.lastOperator){
-                        case "+":
-                            this.value += parseFloat(this.updatingValue);
-                            break;
-                        case "-":
-                            this.value -= parseFloat(this.updatingValue);
-                            break;
-                        case "x":
-                            this.value *= parseFloat(this.updatingValue);
-                            break;
-                        case "÷":
-                            this.value /= parseFloat(this.updatingValue);
-                            break;
-                    }
-                } else {
-                    if (this.updatingValue == ""){
-                        this.value = 0; //If there is no previous operator and no input number from user, then value is given 0.
+                    //If the user were given 2 operators in a row, remove the earlier instance.
+                    if(isNaN(this.updatingValue)){
+                        this.equation = this.equation.substring(0, this.equation.length-1);
+                        printToEquation = false;
                     } else {
-                        this.value = parseFloat(this.updatingValue); // If no previous operator, then the value is set with user input.
+                        // Calculates the sum, based on operator.
+                        switch(this.lastOperator){
+                            case "+":
+                                this.value += parseFloat(this.updatingValue);
+                                break;
+                            case "-":
+                                this.value -= parseFloat(this.updatingValue);
+                                break;
+                            case "x":
+                                this.value *= parseFloat(this.updatingValue);
+                                break;
+                            case "÷":
+                                this.value /= parseFloat(this.updatingValue);
+                                break;
+                        }
+                    }
+                } 
+                else{
+                    if (this.updatingValue == ""){ 
+                        this.value = 0;             //If no previous operator, and input field is empty, set value to 0.
+                        this.equation += 0;
+                    }
+                    else{
+                        this.value = parseFloat(this.updatingValue); //If no previous operator, then set start value to input.
                     }
                 }
-
-                if (isNaN(this.updatingValue)){
-                    this.equation = this.equation.concat("0"); // If there is no input from user, then a 0 is placed in the equation.
-                } else{
-                    this.equation = this.equation.concat(this.updatingValue); // Else the user input is place in the equation.
+                if (printToEquation){
+                    this.equation += this.updatingValue; // If there was no operators typed in sequence, then the last number is added to the equation.
                 }
-
-                this.equation = this.equation.concat(buttonValue); //Equation is then given the operator.
+                this.equation += buttonValue; //Equation is then given the operator.
+                this.lastOperator = buttonValue; // Last operator is then replaced with the latest.
                 this.updatingValue = buttonValue; // The display then shows which operator was selected.
-                this.lastOperator = buttonValue;  // Last operator is then replaced with the last
-                
-                console.log(this.equation);
-                console.log(this.value);
-                console.log(this.updatingValue);
-                
             },
+            
 
             clearOutAllFields(){
                 this.clearAllButOutput();
