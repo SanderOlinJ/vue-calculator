@@ -54,6 +54,7 @@ export default{
 .history-div{
     border: 2px solid black;
     overflow-x: auto;
+    color: black;
 }
 
 p{
