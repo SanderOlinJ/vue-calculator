@@ -14,7 +14,7 @@
                 {{ n }}
             </button>
         </div>
-        
+
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorSecondRow" :key="n"
                 :class="{'green-buttons': ['7','8','9'].includes(n), 'pink-buttons': ['x'].includes(n)}"
@@ -99,7 +99,6 @@
                 }
             },
 
-
             numberHandling(buttonValue){
                 if(isNaN(this.updatingValue) && this.updatingValue != "."){
                     this.updatingValue = "";
@@ -138,7 +137,7 @@
                         break;
                 }
             },
-            
+
             doTheMath(buttonValue){
                 let printToEquation = true;
 
@@ -165,9 +164,9 @@
                                 break;
                         }
                     }
-                } 
+                }
                 else{
-                    if (this.updatingValue == ""){ 
+                    if (this.updatingValue == ""){
                         this.value = 0;             //If no previous operator, and input field is empty, set value to 0.
                         this.equation += 0;
                     }
@@ -182,7 +181,6 @@
                 this.lastOperator = buttonValue; // Last operator is then replaced with the latest.
                 this.updatingValue = buttonValue; // The display then shows which operator was selected.
             },
-            
 
             clearOutAllFields(){
                 this.clearAllButOutput();
@@ -201,6 +199,7 @@
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
 #grid-container{
     display: grid;
     color: white;
