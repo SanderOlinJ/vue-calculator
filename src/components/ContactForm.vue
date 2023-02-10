@@ -25,6 +25,16 @@
     import router from '@/router';
     export default {
         name: "LoginView",
+
+        data() {
+            return {
+                name: "",
+                email: "",
+                message: "",
+                validRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            };
+        },
+
         methods: {
             handleSubmit() {
                 if (this.name === "" || this.email === "" || this.message === ""){
@@ -47,17 +57,12 @@
                     alert("Message is too long (300 chars)")
                     return
                 }
-                
+                this.$store.dispatch('setName', this.name)
+                console.log(this.$store.getters.getName)
+                console.log(this.name)
+                console.log(this.email)
                 router.push("/");
             }
-        },
-        data() {
-            return {
-                name: "",
-                email: "",
-                message: "",
-                validRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            };
         }
     };
 </script>
