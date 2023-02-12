@@ -1,78 +1,114 @@
 <template>
-    <div id="loginContainer">
+    <form id="loginContainer" @submit.prevent="submitForm">
         <div id="loginTitle">
             <label>Please login!</label>
         </div>
-        <div id="name">
-            <label id="nameLabel">Name:</label>
-            <textarea v-model="name" id="nameText"></textarea>
-        </div>
-        <div id="email">
-            <label id="emailLabel">Email: </label>
-            <textarea v-model="email" id="emailText"></textarea>
-        </div>
-        <div id="message">
-            <label id="messageLabel">Message: </label>
-            <textarea v-model="message" id="messageText"></textarea>
-        </div>
+        <BaseInput
+            id="nameInput"
+            v-model="inputs.name"
+            label="Name"
+            type="text"
+        />
+        <p class="update">{{ updates.name_update }}</p>
+        <BaseInput
+            id="emailInput"
+            v-model="inputs.email"
+            label="Email"
+            type="text"
+        />
+        <p class="update">{{ updates.email_update }}</p>
+        <BaseInput
+            id="messageInput"
+            v-model="inputs.message"
+            label="Message"
+            type="text"
+        />
+        <p class="update">{{ updates.message_update }}</p>
         <div>
-            <button v-on:click="handleSubmit()" id="submitButton">Submit form</button>
+            <button id="submitButton" type="submit" :disabled="isDisabled">Submit form</button>
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
-    import router from '@/router';
-    export default {
-        name: "LoginView",
+    import router from '@/router'
+    import BaseInput from './BaseInput.vue'
 
-        data() {
-            return {
+    export default {
+    name: "LoginView",
+    data() {
+        return {
+            inputs: {
                 name: "",
                 email: "",
-                message: "",
-                validRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            };
-        },
-
-        methods: {
-            handleSubmit() {
-                if (this.name === "" || this.email === "" || this.message === ""){
-                    alert("Please fill out every field.")
-                    return
-                }
-                if (!this.email.match(this.validRegex)){
-                    alert("Invalid email address.")
-                    return
-                }
-                if (this.name.length > 50){
-                    alert("Name is too long (50 chars)")
-                    return
-                }
-                if (this.email.length > 50){
-                    alert("Email is too long (50 chars)")
-                    return
-                }
-                if (this.message.length > 300){
-                    alert("Message is too long (300 chars)")
-                    return
-                }
-                this.$store.dispatch('setName', this.name)
-                console.log(this.$store.getters.getName)
-                console.log(this.name)
-                console.log(this.email)
-                router.push("/");
+                message: ""
+            },
+            updates: {
+                name_update: "",
+                email_update: "",
+                message_update: ""
+            },
+            emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        };
+    },
+    computed: {
+        isDisabled() {
+            if (this.inputs.name == "" || this.inputs.email == "" || this.inputs.message == ""){
+                return true
             }
+            if (!this.emailRegex.test(String(this.inputs.email).toLowerCase())){
+                this.setEmailUpdateMessage("Please enter a valid email.")
+                return true
+            } else {this.setEmailUpdateMessage("")}
+        
+            if (this.inputs.name.length > 40) {
+                this.setNameUpdateMessage("Name cannot be longer than 40 characters.")
+                return true
+            } else {this.setNameUpdateMessage("")}
+
+            if (this.inputs.email.length > 50) {
+                this.setEmailUpdateMessage("Email cannot be longer than 50 characters.")
+                return true
+            } else {this.setEmailUpdateMessage("")}
+
+            if (this.inputs.message.length > 300) {
+                this.setMessageUpdateMessage("Message cannot be longer than 300 characters.")
+                return true
+            } else {this.setMessageUpdateMessage("")}
+
+            return false;
         }
-    };
+    },
+    methods: {
+        submitForm() {
+            this.$store.dispatch("setName", this.name)
+            console.log(this.$store.getters.getName)
+            console.log(this.name)
+            console.log(this.email)
+            router.push("/")
+        },
+        setNameUpdateMessage(message){
+            this.updates.name_update = message
+        },
+        setEmailUpdateMessage(message){
+            this.updates.email_update = message
+        },
+        setMessageUpdateMessage(message){
+            this.updates.message_update = message
+        },
+    },
+    components: { BaseInput }
+};
 </script>
 
-<style scoped>
+<style>
+
     #loginContainer {
         display: grid;
         justify-content: center;
         text-align: center;
         align-items: center;
+        align-content: center;
         margin: 40px;
     }
 
@@ -82,46 +118,6 @@
         margin-bottom: 50px;
         font-size: 30px;
         color: white;
-    }
-
-    #name,
-    #email,
-    #message {
-        margin-right: 110px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        column-gap: 20px;
-        margin-bottom: 20px;
-    }
-
-    #nameText,
-    #emailText{
-        align-content:center;
-        overflow-x: auto;
-        overflow-y: hidden;
-        resize: none;
-        font-size: 20px;
-        width: 250px;
-        height: 40px;
-
-    }
-    #messageText{
-        overflow-x: auto;
-        overflow-y: hidden;
-        resize: none;
-        font-size: 20px;
-        width: 250px;
-        height: 150px;
-    }
-
-    #nameLabel,
-    #emailLabel,
-    #messageLabel {
-        width: 100px;
-        color: white;
-        font-weight: bold;
-        font-size: 20px;
     }
 
     #submitButton{
@@ -135,6 +131,31 @@
         font-weight: bold;
         border-radius: 50px;
         cursor: pointer;
+        opacity: 1;
+    }
+
+    #submitButton:disabled{
+        opacity: 0.6;
+        cursor: auto;
+    }
+
+    #nameInput,
+    #emailInput{
+        height: 35px;
+        resize: none;
+    }
+    #messageInput{
+        font-size: 20px;
+        height: 200px;
+        resize: none;
+    }
+
+    .update{
+        color: white;
+        height: 10px;
+        width: 400px;
+        margin-top: 5;
+        padding: 0;
     }
 </style>
 
