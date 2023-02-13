@@ -1,8 +1,9 @@
 <template>
     <form id="loginContainer" @submit.prevent="submitForm">
         <div id="loginTitle">
-            <label>Please login!</label>
+            <label>Fill out form</label>
         </div>
+        <p class="update" id="feedback">{{ updates.feedback_update }}</p>
         <BaseInput
             id="nameInput"
             v-model="inputs.name"
@@ -31,8 +32,8 @@
 </template>
 
 <script>
-    import router from '@/router'
     import BaseInput from './BaseInput.vue'
+    import ContactFormServices from '@/services/ContactFormServices'
 
     export default {
     name: "LoginView",
@@ -46,7 +47,8 @@
             updates: {
                 name_update: "",
                 email_update: "",
-                message_update: ""
+                message_update: "",
+                feedback_update: ""
             },
             emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         };
@@ -81,11 +83,21 @@
     },
     methods: {
         submitForm() {
-            this.$store.dispatch("setName", this.name)
-            console.log(this.$store.getters.getName)
-            console.log(this.name)
-            console.log(this.email)
-            router.push("/")
+            console.log(this.inputs)
+            ContactFormServices.postContactForm(this.inputs)
+                .then( () => {
+                    console.log("No problemo")
+                    this.$store.commit("SET_NAME", this.inputs.name)
+                    this.$store.commit("SET_EMAIL", this.inputs.email)
+                    this.updates.feedback_update = "Form was filled out successfully"
+                    this.inputs.name = this.$store.state.name
+                    this.inputs.email = this.$store.state.email
+                    this.inputs.message = ""
+                })
+                .catch( error => {
+                    console.log(error)
+                    this.updates.feedback_update = error
+                })
         },
         setNameUpdateMessage(message){
             this.updates.name_update = message
@@ -96,8 +108,16 @@
         setMessageUpdateMessage(message){
             this.updates.message_update = message
         },
+        setFeedbackUpdateMessage(message){
+            this.updates.feedback_update = message
+        }
     },
-    components: { BaseInput }
+    components: { BaseInput },
+    
+    created(){
+        this.inputs.name = this.$store.state.name;
+        this.inputs.email = this.$store.state.email;
+    }
 };
 </script>
 
@@ -156,6 +176,12 @@
         width: 400px;
         margin-top: 5;
         padding: 0;
+    }
+
+    #feedback{
+        font-size: 20px;
+        color: white;
+        text-decoration: underline;
     }
 </style>
 

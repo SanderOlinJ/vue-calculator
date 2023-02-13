@@ -1,0 +1,10 @@
+{
+  "formInputs": [
+    {
+      "name": "Sander",
+      "email": "test@gmail.com",
+      "message": "test123",
+      "id": 0
+    }
+  ]
+}
