@@ -23,7 +23,7 @@ export default{
     name: "Calculator History",
     props: {
         equationHistory: {
-            type: Array
+            type: Array,
         }
     },
 

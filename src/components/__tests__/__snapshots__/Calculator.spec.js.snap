@@ -1,0 +1,18 @@
+// Vitest Snapshot v1
+
+exports[`Calculator > Should render properly 1`] = `
+"<div id=\\"grid-container\\" data-v-453dfca7=\\"\\">
+  <div class=\\"calculator-row\\" id=\\"outer-calculator-div\\" data-v-453dfca7=\\"\\">
+    <div id=\\"calculator-output-div\\" data-v-453dfca7=\\"\\">
+      <div id=\\"calculator-output\\" data-v-453dfca7=\\"\\">OFF</div>
+    </div>
+  </div>
+  <div class=\\"calculator-row\\" data-v-453dfca7=\\"\\"><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">PWR</button><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">DEL</button><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">AC</button><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">÷</button></div>
+  <div class=\\"calculator-row\\" data-v-453dfca7=\\"\\"><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">7</button><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">8</button><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">9</button><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">x</button></div>
+  <div class=\\"calculator-row\\" data-v-453dfca7=\\"\\"><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">4</button><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">5</button><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">6</button><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">-</button></div>
+  <div class=\\"calculator-row\\" data-v-453dfca7=\\"\\"><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">1</button><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">2</button><button class=\\"calculator-button green-buttons\\" data-v-453dfca7=\\"\\">3</button><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">+</button></div>
+  <div class=\\"calculator-row\\" data-v-453dfca7=\\"\\">
+    <div id=\\"zero-button-div\\" data-v-453dfca7=\\"\\"><button class=\\"calculator-button, green-buttons\\" id=\\"zero-button\\" data-v-453dfca7=\\"\\"> 0 </button></div><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">.</button><button class=\\"calculator-button pink-buttons\\" data-v-453dfca7=\\"\\">=</button>
+  </div>
+</div>"
+`;
