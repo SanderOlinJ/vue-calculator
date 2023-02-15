@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import { mount } from "@vue/test-utils"
-import CalculatorHistory from '../CalculatorHistory.vue'
+import CalculatorHistory from '../../CalculatorHistory.vue'
 
 describe("CalculatorHistory", () => {
     const wrapper = mount(CalculatorHistory)

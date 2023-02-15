@@ -7,8 +7,8 @@
   </template>
   
   <script>
-  import Calculator from '@/components/Calculator.vue';
-  import CalculatorHistory from '@/components/CalculatorHistory.vue';
+  import Calculator from '../components/Calculator.vue';
+  import CalculatorHistory from '../components/CalculatorHistory.vue';
   
   export default {
     name: 'CalculatorView',
