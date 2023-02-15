@@ -33,7 +33,7 @@
 
 <script>
     import BaseInput from './BaseInput.vue'
-    import ContactFormServices from '@/services/ContactFormServices'
+    import ContactFormServices from '../services/ContactFormServices'
 
     export default {
     name: "LoginView",
