@@ -9,7 +9,8 @@
         </div>
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorFirstRow" :key="n"
-                :class="{'pink-buttons': ['PWR','DEL','AC','÷'].includes(n)}" 
+                :class="{'pink-buttons': ['PWR','DEL','AC','÷'].includes(n)}"
+                v-bind:id="n" 
                 @click="buttonClick(n)">
                 {{ n }}
             </button>
@@ -18,6 +19,7 @@
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorSecondRow" :key="n"
                 :class="{'green-buttons': ['7','8','9'].includes(n), 'pink-buttons': ['x'].includes(n)}"
+                v-bind:id="n" 
                 @click="buttonClick(n)">
                 {{ n }}
             </button>
@@ -26,6 +28,7 @@
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorThirdRow" :key="n"
                 :class="{'green-buttons': ['4','5','6'].includes(n), 'pink-buttons': ['-'].includes(n)}"
+                v-bind:id="n" 
                 @click="buttonClick(n)">
                 {{ n }}
             </button>
@@ -34,6 +37,7 @@
         <div class="calculator-row">
             <button class="calculator-button" v-for="n in calculatorFourthRow" :key="n"
                 :class="{'green-buttons': ['1','2','3'].includes(n), 'pink-buttons': ['+'].includes(n)}"
+                v-bind:id="n" 
                 @click="buttonClick(n)">
                 {{ n }}
             </button>
@@ -48,6 +52,7 @@
             </div>
             <button class="calculator-button" v-for="n in calculatorFifthRow" :key="n"
                 :class="{'pink-buttons': ['.','='].includes(n)}"
+                v-bind:id="n" 
                 @click="buttonClick(n)">
                 {{ n }}
             </button>
