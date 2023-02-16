@@ -5,7 +5,7 @@
                 <h1>Calculator History</h1>
             </div>
 
-            <div class="history-div" v-for="(equation, index) in equationHistory" :key="index">
+            <div class="history-div" v-for="(equation, index) in equationHistory" :key="index" id="calculator-history">
                 <p>
                     {{ equation }}
                 </p>
