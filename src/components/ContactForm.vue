@@ -17,7 +17,7 @@
             label="Email"
             type="text"
         />
-        <p class="update">{{ updates.email_update }}</p>
+        <p class="update" id="email-update">{{ updates.email_update }}</p>
         <BaseInput
             id="messageInput"
             v-model="inputs.message"
@@ -58,6 +58,7 @@
             if (this.inputs.name == "" || this.inputs.email == "" || this.inputs.message == ""){
                 return true
             }
+
             if (!this.emailRegex.test(String(this.inputs.email).toLowerCase())){
                 this.setEmailUpdateMessage("Please enter a valid email.")
                 return true
@@ -83,19 +84,16 @@
     },
     methods: {
         submitForm() {
-            console.log(this.inputs)
+            this.$store.commit("SET_NAME", this.inputs.name)
+            this.$store.commit("SET_EMAIL", this.inputs.email)
             ContactFormServices.postContactForm(this.inputs)
                 .then( () => {
-                    console.log("No problemo")
-                    this.$store.commit("SET_NAME", this.inputs.name)
-                    this.$store.commit("SET_EMAIL", this.inputs.email)
                     this.updates.feedback_update = "Form was filled out successfully"
                     this.inputs.name = this.$store.state.name
                     this.inputs.email = this.$store.state.email
                     this.inputs.message = ""
                 })
                 .catch( error => {
-                    console.log(error)
                     this.updates.feedback_update = error
                 })
         },

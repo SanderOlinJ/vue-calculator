@@ -4,13 +4,13 @@ const apiClient = axios.create({
     baseURL: 'http://localhost:3000',
     withCredentials: false,
     headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
 })
 
 export default{
     postContactForm(contactForm){
-        return apiClient.post('/formInputs', contactForm)
+        return apiClient.post('/form', contactForm)
     }
 }
